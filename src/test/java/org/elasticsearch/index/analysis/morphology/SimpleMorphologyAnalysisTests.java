@@ -40,8 +40,9 @@ import org.elasticsearch.index.settings.IndexSettingsModule;
 import org.elasticsearch.indices.analysis.IndicesAnalysisModule;
 import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
+
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -76,11 +77,11 @@ public class SimpleMorphologyAnalysisTests {
         Assert.assertNotNull(termAttr);
         int i = 0;
         while (stream.incrementToken()) {
-            Assert.assertTrue(i < expected.length, "got extra term: " + termAttr.toString());
-            Assert.assertEquals(termAttr.toString(), expected[i], "expected different term at index " + i);
+            Assert.assertTrue( "got extra term: " + termAttr.toString(),i < expected.length);
+            Assert.assertEquals( "expected different term at index " + i,termAttr.toString(), expected[i]);
             i++;
         }
-        Assert.assertEquals(i, expected.length, "not all tokens produced");
+        Assert.assertEquals("not all tokens produced",i, expected.length);
     }
 
     @Test
@@ -104,7 +105,7 @@ public class SimpleMorphologyAnalysisTests {
         MorphologyAnalyzer russianAnalyzer = new MorphologyAnalyzer(russianLuceneMorphology);
         TokenStream stream = russianAnalyzer.tokenStream("name", new FastStringReader("тест пм тест"));
         MorphologyFilter englishFilter = new MorphologyFilter(stream, englishLuceneMorphology);
-        assertSimpleTSOutput(englishFilter, new String[] {"тест", "тесто", "", "тест", "тесто"});
+        assertSimpleTSOutput(englishFilter, new String[] {"тест", "тесто", "пм", "тест", "тесто"});
     }
 
 }
