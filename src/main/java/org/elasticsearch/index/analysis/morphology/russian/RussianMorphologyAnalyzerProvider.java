@@ -39,11 +39,12 @@ public class RussianMorphologyAnalyzerProvider extends AbstractIndexAnalyzerProv
     public RussianMorphologyAnalyzerProvider(Index index, @IndexSettings Settings indexSettings,
                                              @Assisted String name, @Assisted Settings settings) {
         super(index, indexSettings, name, settings);
-        try {
+        throw new ElasticsearchException("flag settings "+indexSettings.get("flags.a"));
+        /*try {
             analyzer = new RussianAnalyzer();
         } catch (IOException ex) {
             throw new ElasticsearchException("Unable to load Russian morphology analyzer", ex);
-        }
+        }*/
     }
 
     @Override

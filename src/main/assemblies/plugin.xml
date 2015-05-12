@@ -12,6 +12,8 @@
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <excludes>
                 <exclude>org.elasticsearch:elasticsearch</exclude>
+                <exclude>org.apache.log4j:log4j</exclude>
+                <exclude>org.apache.lucene:lucene</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
@@ -19,8 +21,9 @@
             <useProjectArtifact>true</useProjectArtifact>
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <includes>
-                <include>org.motovs.lucene.morphology:russian</include>
-                <include>org.motovs.lucene.morphology:english</include>
+                <include>org.apache.lucene.morphology:russian</include>
+                <include>org.apache.lucene.morphology:english</include>
+                <include>org.apache.lucene.morphology:morph</include>
             </includes>
         </dependencySet>
     </dependencySets>

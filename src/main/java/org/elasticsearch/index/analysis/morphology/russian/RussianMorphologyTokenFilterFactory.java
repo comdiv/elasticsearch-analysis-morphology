@@ -16,6 +16,7 @@
 
 package org.elasticsearch.index.analysis.morphology.russian;
 
+import org.apache.log4j.LogManager;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.morphology.LuceneMorphology;
 import org.apache.lucene.morphology.analyzer.MorphologyFilter;
@@ -48,6 +49,6 @@ public class RussianMorphologyTokenFilterFactory extends AbstractTokenFilterFact
 
     @Override
     public TokenStream create(TokenStream tokenStream) {
-        return new MorphologyFilter(tokenStream, luceneMorph);
+        return new MorphologyFilter(tokenStream, luceneMorph,true);
     }
 }

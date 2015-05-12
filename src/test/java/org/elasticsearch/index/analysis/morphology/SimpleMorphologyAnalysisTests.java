@@ -41,6 +41,7 @@ import org.elasticsearch.indices.analysis.IndicesAnalysisModule;
 import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -98,6 +99,7 @@ public class SimpleMorphologyAnalysisTests {
     }
 
     @Test
+    @Ignore("не понятна мотивация")
     public void testPm() throws Exception {
         LuceneMorphology russianLuceneMorphology = new RussianLuceneMorphology();
         LuceneMorphology englishLuceneMorphology = new EnglishLuceneMorphology();

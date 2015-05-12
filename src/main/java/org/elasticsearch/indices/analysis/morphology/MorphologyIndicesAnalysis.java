@@ -16,6 +16,7 @@
 
 package org.elasticsearch.indices.analysis.morphology;
 
+import org.apache.log4j.LogManager;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.morphology.LuceneMorphology;
 import org.apache.lucene.morphology.analyzer.MorphologyFilter;
@@ -23,6 +24,7 @@ import org.apache.lucene.morphology.english.EnglishAnalyzer;
 import org.apache.lucene.morphology.english.EnglishLuceneMorphology;
 import org.apache.lucene.morphology.russian.RussianAnalyzer;
 import org.apache.lucene.morphology.russian.RussianLuceneMorphology;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.common.component.AbstractComponent;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.Settings;
@@ -44,6 +46,7 @@ public class MorphologyIndicesAnalysis extends AbstractComponent {
     public MorphologyIndicesAnalysis(Settings settings,
                                      IndicesAnalysisService indicesAnalysisService) {
         super(settings);
+
         try {
             indicesAnalysisService.analyzerProviderFactories().put("russian_morphology",
                     new PreBuiltAnalyzerProviderFactory("russian_morphology", AnalyzerScope.INDICES,
@@ -68,6 +71,21 @@ public class MorphologyIndicesAnalysis extends AbstractComponent {
                         }
                     }));
 
+            indicesAnalysisService.tokenFilterFactories().put("safe_russian_morphology",
+                    new PreBuiltTokenFilterFactoryFactory(new TokenFilterFactory() {
+                        private final LuceneMorphology luceneMorph = new RussianLuceneMorphology();
+
+                        @Override
+                        public String name() {
+                            return "safe_russian_morphology";
+                        }
+
+                        @Override
+                        public TokenStream create(TokenStream tokenStream) {
+                            return new MorphologyFilter(tokenStream, luceneMorph,true);
+                        }
+                    }));
+
             indicesAnalysisService.tokenFilterFactories().put("english_morphology",
                     new PreBuiltTokenFilterFactoryFactory(new TokenFilterFactory() {
                         private final LuceneMorphology luceneMorph = new EnglishLuceneMorphology();
@@ -80,6 +98,22 @@ public class MorphologyIndicesAnalysis extends AbstractComponent {
                         @Override
                         public TokenStream create(TokenStream tokenStream) {
                             return new MorphologyFilter(tokenStream, luceneMorph);
+                        }
+                    }));
+
+
+            indicesAnalysisService.tokenFilterFactories().put("safe_english_morphology",
+                    new PreBuiltTokenFilterFactoryFactory(new TokenFilterFactory() {
+                        private final LuceneMorphology luceneMorph = new EnglishLuceneMorphology();
+
+                        @Override
+                        public String name() {
+                            return "safe_english_morphology";
+                        }
+
+                        @Override
+                        public TokenStream create(TokenStream tokenStream) {
+                            return new MorphologyFilter(tokenStream, luceneMorph,true);
                         }
                     }));
 

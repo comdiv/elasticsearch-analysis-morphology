@@ -48,6 +48,6 @@ public class EnglishMorphologyTokenFilterFactory extends AbstractTokenFilterFact
 
     @Override
     public TokenStream create(TokenStream tokenStream) {
-        return new MorphologyFilter(tokenStream, luceneMorph);
+        return new MorphologyFilter(tokenStream, luceneMorph,true);
     }
 }
