@@ -25,6 +25,7 @@ import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.analysis.AbstractTokenFilterFactory;
+import org.elasticsearch.index.analysis.morphology.common.KeywordPreserveMorphologyFilter;
 import org.elasticsearch.index.settings.IndexSettings;
 
 import java.io.IOException;
@@ -48,6 +49,6 @@ public class RussianMorphologyTokenFilterFactory extends AbstractTokenFilterFact
 
     @Override
     public TokenStream create(TokenStream tokenStream) {
-        return new MorphologyFilter(tokenStream, luceneMorph);
+        return new KeywordPreserveMorphologyFilter(tokenStream, luceneMorph);
     }
 }

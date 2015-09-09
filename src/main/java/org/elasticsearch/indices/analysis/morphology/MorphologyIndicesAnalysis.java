@@ -30,6 +30,7 @@ import org.elasticsearch.index.analysis.AnalyzerScope;
 import org.elasticsearch.index.analysis.PreBuiltAnalyzerProviderFactory;
 import org.elasticsearch.index.analysis.PreBuiltTokenFilterFactoryFactory;
 import org.elasticsearch.index.analysis.TokenFilterFactory;
+import org.elasticsearch.index.analysis.morphology.common.KeywordPreserveMorphologyFilter;
 import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class MorphologyIndicesAnalysis extends AbstractComponent {
 
                         @Override
                         public TokenStream create(TokenStream tokenStream) {
-                            return new MorphologyFilter(tokenStream, luceneMorph);
+                            return new KeywordPreserveMorphologyFilter(tokenStream, luceneMorph);
                         }
                     }));
 
@@ -79,7 +80,7 @@ public class MorphologyIndicesAnalysis extends AbstractComponent {
 
                         @Override
                         public TokenStream create(TokenStream tokenStream) {
-                            return new MorphologyFilter(tokenStream, luceneMorph);
+                            return new KeywordPreserveMorphologyFilter(tokenStream, luceneMorph);
                         }
                     }));
 
